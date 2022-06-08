@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        table td {
+            width: 100px;
+            vertical-align: top;
+            border: solid 1px #888;
+            padding: 10px;
+        }
+        .tab {
+            background: #f5ffff;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .tab th {
+            border-top: 1px solid #777777;
+            border-bottom: 1px solid #777777;
+            background: linear-gradient(#9595b6, #5a567f);
+            color: white;
+            padding: 10px 15px;
+        }
+
+        .tab tr:nth-child(odd) {
+            background: #ebf3f9;
+        }
+
+        .tab th:first-child {
+            border-left: 1px solid #777777;
+            border-bottom: 1px solid #777777;
+        }
+
+        .tab th:last-child {
+            border-right: 1px solid #777777;
+            border-bottom: 1px solid #777777;
+        }
+
+        .tab td {
+            border: 1px solid #e3eef7;
+            padding: 10px 15px;
+        }
+    </style>
+    <title>Error</title>
+</head>
+<body>
+<h1>Error Page</h1>
+<table class="tab">
+    <tr>
+        <td>Date</td>
+        <td th:text="${timestamp}"></td>
+    </tr>
+    <tr>
+        <td>Message</td>
+        <td th:text="${message}"></td>
+    </tr>
+</table>
+<p><a href="#" onclick="history.back();">Back</a></p>
+</body>
+</html>

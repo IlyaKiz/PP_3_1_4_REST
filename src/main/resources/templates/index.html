@@ -1,11 +1,113 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Spring Security Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Admin</title>
+    <style>
+        .tab {
+            background: #f5ffff;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .tab th {
+            border-top: 1px solid #777777;
+            border-bottom: 1px solid #777777;
+            background: linear-gradient(#9595b6, #5a567f);
+            color: white;
+            padding: 10px 15px;
+        }
+
+        .tab tr:nth-child(odd) {
+            background: #ebf3f9;
+        }
+
+        .tab th:first-child {
+            border-left: 1px solid #777777;
+            border-bottom: 1px solid #777777;
+        }
+
+        .tab th:last-child {
+            border-right: 1px solid #777777;
+            border-bottom: 1px solid #777777;
+        }
+
+        .tab td {
+            border: 1px solid #e3eef7;
+            padding: 10px 15px;
+        }
+
+        .span {
+            margin-left: 20px;
+        }
+
+        .button {
+            width: 175px;
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            padding: .5em 2em;
+            outline: none;
+            border-width: 2px 0;
+            border-style: solid none;
+            border-color: #f5ffff #000 #5a567f;
+            border-radius: 6px;
+            background: linear-gradient(#9595b6, #5a567f) #81818d;
+            transition: 0.2s;
+        }
+
+        .button:hover {
+            background: linear-gradient(#9595b6, #5a567f) #9595b6;
+        }
+
+        .button:active {
+            background: linear-gradient(#5a567f, rgb(149, 149, 182)) #5a567f;
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
-
-
+<span sec:authorize="isAuthenticated()"><a th:href="@{/user}">User Home</a></span>
+<span class="span" sec:authorize="isAuthenticated()"><a th:href="@{/admin}">Admin Home</a></span>
+<br/><br/>
+<div>
+    <table class="tab">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>ИМЯ</th>
+            <th>ФАМИЛИЯ</th>
+            <th>ВОЗРАСТ</th>
+            <th>EMAIL</th>
+            <th>ТЕЛЕФОН</th>
+            <th>РОЛИ</th>
+            <th>РЕДАКТИРОВАТЬ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}" th:object="${user}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.phoneNumber}"></td>
+            <td th:text="${#strings.listJoin(user.roles,' ')}"></td>
+            <td>
+                <form th:action="@{/admin/edit/{id}(id=${user.getId()})}">
+                    <input class="button" type="submit" value="Редактировать"/>
+                </form>
+                <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}">
+                    <input class="button" type="submit" value="Удалить"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br><br>
+<input class="button" type="button" value="Новый пользователь" onclick="window.location.href = '/admin/new'"/>
+<br/>
+<p sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></p>
 </body>
 </html>

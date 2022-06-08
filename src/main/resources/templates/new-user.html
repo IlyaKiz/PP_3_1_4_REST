@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>New User</title>
+    <style>
+        #firstName, #lastName, #email, #phoneNumber, #age, #password, #roles {
+            width: 300px;
+            box-shadow: inset 0 1px 5px rgb(149, 149, 182);
+            border: 1px solid #9595b6;
+            color: #5a567f;
+            padding: 10px 10px 10px 30px;
+        }
+
+        #roles {
+            width: 343px;
+            height: 50px;
+            box-shadow: inset 0 1px 5px rgb(149, 149, 182);
+            border: 1px solid #9595b6;
+            color: #5a567f;
+            padding: 10px 10px 10px 30px;
+        }
+
+        label {
+            width: 100px;
+            text-align: right;
+            float: left;
+            margin-right: 10px;
+            line-height: 30px;
+        }
+
+        .body {
+            background: #f5ffff;
+            border-collapse: collapse;
+        }
+
+        .submitField {
+            width: 175px;
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            padding: .5em 2em;
+            outline: none;
+            border-width: 2px 0;
+            border-style: solid none;
+            border-color: #f5ffff #000 #5a567f;
+            border-radius: 6px;
+            background: linear-gradient(#9595b6, #5a567f) #81818d;
+            transition: 0.2s;
+            margin-left: 110px;
+        }
+
+        .submitField:hover {
+            background: linear-gradient(#9595b6, #5a567f) #9595b6;
+        }
+
+        .submitField:active {
+            background: linear-gradient(#5a567f, rgb(149, 149, 182)) #5a567f;
+        }
+    </style>
+</head>
+<body class="body">
+<form th:method="POST" th:action="@{/admin}" th:object="${user}">
+    <label for="firstName">Имя: </label>
+    <input type="text" th:field="*{firstName}" id="firstName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name error</div>
+    <br/>
+    <label for="lastName">Фамилия: </label>
+    <input type="text" th:field="*{lastName}" id="lastName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Age error</div>
+    <br/>
+    <label for="age">Возраст: </label>
+    <input type="number" th:field="*{age}" id="age"/>
+    <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</div>
+    <br/>
+    <label for="email">Email: </label>
+    <input type="text" th:field="*{email}" id="email"/>
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+    <br/>
+    <label for="phoneNumber">Телефон: </label>
+    <input type="text" th:field="*{phoneNumber}" id="phoneNumber"/>
+    <div style="color:red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Email error</div>
+    <br/>
+    <label for="password">Пароль: </label>
+    <input type="password" th:value="${user.password}" th:attr="name='password'" id="password"/>
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Email error</div>
+    <br/>
+    <label for="roles">Роли: </label>
+    <select name="select" th:field="*{roles}" id="roles" multiple required>
+        <option th:value="2" th:text="USER"></option>
+        <option th:value="1" th:text="ADMIN"></option>
+    </select>
+    <div style="color:red" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Email error</div>
+    <br/>
+    <br/>
+    <input class="submitField" type="submit" value="Сохранить"/>
+</form>
+<p sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></p>
+<p><a href="#" onclick="history.back();">Back</a></p>
+</body>
+</html>
