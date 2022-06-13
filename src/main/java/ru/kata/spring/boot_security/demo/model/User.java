@@ -62,6 +62,26 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public User(String firstName, String lastName, int age, String email, String phoneNumber, String password, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
+        role.getUsers().add(this);
+    }
+
+    public void removeRole(Role role) {
+        roles.remove(role);
+        role.getUsers().remove(this);
+    }
+
     public Long getId() {
         return id;
     }
